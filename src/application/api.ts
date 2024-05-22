@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { User, UserFormValues } from "./models/user";
 import { InstitutionItem } from "./models/institution";
+import { SickNoteItem } from "./models/sickNote";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -8,7 +9,7 @@ const sleep = (delay: number) => {
     })
 }
 
-axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = 'http://localhost:5133/api';
 
 axios.interceptors.request.use(config => {
     const token = window.localStorage.getItem('jwt')
@@ -85,13 +86,26 @@ const Account = {
 }
 
 const Institution = {
-    educationalInstitutions: () => requests.get<InstitutionItem[]>('/institution/educational'),
+    educationalInstitutions: () => requests.get<InstitutionItem[]>('/institution?type=educational'),
+    medicalInstitutions: () => requests.get<InstitutionItem[]>('/institution?type=medical'),
+    students: (institutionId: string | null) => requests.get<User[]>(`/institution/${institutionId}/students`),
+}
+
+const UserRequests = {
+    get: (id: string) => requests.get<User>(`/user/${id}`),
+    sickNotes: (id: string) => requests.get<SickNoteItem[]>(`/user/${id}/sick-notes`)
+}
+
+const SickNotes = {
+    get: (id: string) => requests.get<SickNoteItem>(`/sick-note/${id}`)
 }
 
 
 const api = {
     Account,
-    Institution
+    Institution,
+    UserRequests,
+    SickNotes
 }
 
 export default api;
