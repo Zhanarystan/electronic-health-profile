@@ -45,7 +45,7 @@ function StudentListPage() {
                 </div>
                 {filteredStudents.length === 0 ? 
                     "" : 
-                    filteredStudents.map(s => <StudentListItem student={s} />)
+                    filteredStudents.map(s => <StudentListItem key={s.id} student={s} />)
                 }
             </div>
         </>

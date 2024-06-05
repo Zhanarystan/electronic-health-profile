@@ -2,16 +2,32 @@ import React, { useEffect, useState } from 'react'
 import InstitutionListItem from './InstitutionListItem';
 import { InstitutionItem } from '../../application/models/institution';
 import api from '../../application/api';
+import { useLoaderData, useNavigate, useOutletContext } from 'react-router-dom';
+import { User } from '../../application/models/user';
+import { UserContextType } from '../../application/outletContextTypes/contextTypes';
+
+
+type InstitutionsLoaderType = {
+    institutions: InstitutionItem[]
+}
+
+export async function institutionListLoader({ params }: any) {
+    const institutions = await api.Institution.educationalInstitutions()
+    return { institutions }
+}
 
 function InstitutionListPage() {
 
-    const [institutions, setInstitutions] = useState<InstitutionItem[]>([])
+    const { user } =  useOutletContext<UserContextType>()
+    
+    const { institutions } = useLoaderData() as InstitutionsLoaderType
+
+    const navigate = useNavigate()
 
     useEffect(() => {
-        api.Institution.educationalInstitutions()
-                .then((list: InstitutionItem[]) =>
-                    setInstitutions(list))
-    }, [])
+        if (!user)
+            navigate("/login")
+    }, [user])
 
     return (
         <>

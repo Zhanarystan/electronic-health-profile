@@ -21,3 +21,4 @@ function InstitutionListItem({institution} : Props) {
 }
 
 export default InstitutionListItem;
+

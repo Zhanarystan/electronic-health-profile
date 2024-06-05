@@ -1,5 +1,6 @@
 import React from 'react'
 import { Student, User } from '../../application/models/user'
+import { formatDate } from '../../application/helpers/dateHelpers'
 
 interface Props {
     student: User
@@ -20,13 +21,12 @@ function StudentPersonalData({ student }: Props) {
                             <li className="list-group-item">Email: {student.email}</li>
                             <li className="list-group-item">ИИН: {student.iin}</li>
                             <li className="list-group-item">Учебное заведение: {student.institutionName}</li>
-                            <li className="list-group-item">Дата рождения: {("" + student.birthDate).split("T")[0]}</li>
+                            <li className="list-group-item">Дата рождения: {formatDate(student.birthDate)}</li>
                             <li className="list-group-item">Пол: {student.genderName}</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            
         </>
     )
 }

@@ -1,8 +1,8 @@
 import React from 'react'
-import api from '../../application/api'
-import { SickNoteItem } from '../../application/models/sickNote'
+import api from '../../../application/api'
+import { SickNoteItem } from '../../../application/models/sickNote'
 import { useLoaderData } from 'react-router-dom'
-import { formatDate } from '../../application/helpers/dateHelpers'
+import { formatDate } from '../../../application/helpers/dateHelpers'
 
 type SickNoteLoaderType = {
     sickNote: SickNoteItem
@@ -39,8 +39,8 @@ function SickNoteDetail() {
                     <h5>{sickNote.medicalStaff?.institutionName}</h5> 
                     <h5>{sickNote.medicalStaff?.positionName} {sickNote.medicalStaff?.lastName} {sickNote.medicalStaff?.firstName} {sickNote.medicalStaff?.middleName}</h5> */}
                     
-                    <a href="#" className="card-link mt-5">Card link</a>
-                    <a href="#" className="card-link">Another link</a>
+                    {/* <a href="#" className="card-link mt-5">Card link</a>
+                    <a href="#" className="card-link">Another link</a> */}
                 </div>
             </div>
         </>

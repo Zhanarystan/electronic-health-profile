@@ -1,27 +1,36 @@
 import React from 'react'
-import { SickNoteItem } from '../../application/models/sickNote'
-import api from '../../application/api'
+import { SickNoteItem } from '../../../application/models/sickNote'
+import api from '../../../application/api'
 import { useLoaderData } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { formatDate } from '../../../application/helpers/dateHelpers'
+import { UserContextType } from '../../../application/outletContextTypes/contextTypes'
 
 type SickNotesLoaderType = {
     sickNotes: SickNoteItem[]
 }
 
 export async function sickNotesLoader({ params }: any) {
-    const sickNotes = await api.UserRequests.sickNotes(params.studentId)
+    const sickNotes = await api.SickNotes.list(params.studentId)
     return { sickNotes }
 }
 
 function SickNoteList() {
 
     const { sickNotes } = useLoaderData() as SickNotesLoaderType
+    const { user } = useLoaderData() as UserContextType
 
     return (
         <>
-            <div className="form-group mb-2">
-                <Link className="btn btn-success" to="">Создать справку</Link>
-            </div>
+            {
+                user !== null && user !== undefined && user.roles.includes("medical_staff") 
+                    ?
+                    <div className="form-group mb-2">
+                        <Link className="btn btn-success" to="">Создать справку</Link>
+                    </div>
+                    :
+                    ""
+            }
             <table className="table">
                 <thead>
                     <tr>
@@ -38,7 +47,7 @@ function SickNoteList() {
                             <tr>
                                 <th scope="row">{sn.noteNumber}</th>
                                 <td>{sn.medicalStaff?.lastName} {sn.medicalStaff?.firstName} {sn.medicalStaff?.middleName}</td>
-                                <td>{("" + sn.issueDate).split("T")[0]}</td>
+                                <td>{formatDate(sn.issueDate)}</td>
                                 <td><Link className="btn btn-secondary" to={`${sn.id}`}>Посмотреть</Link></td>
                             </tr>
                         )

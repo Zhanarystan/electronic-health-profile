@@ -25,6 +25,7 @@ function LoginPage() {
         if (user.token) {
             console.log("jwt " + user.token)
             window.localStorage.setItem("jwt", user.token)
+            window.localStorage.setItem("currentUser", JSON.stringify(user))
             setUser({...user})
             navigate("/")
         }

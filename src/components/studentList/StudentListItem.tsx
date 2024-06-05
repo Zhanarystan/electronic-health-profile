@@ -1,6 +1,8 @@
 import React from 'react'
 import { User } from '../../application/models/user'
 import { Link } from 'react-router-dom'
+import { format } from 'path'
+import { formatDate } from '../../application/helpers/dateHelpers'
 
 
 interface Props {
@@ -15,7 +17,7 @@ function StudentListItem({ student }: Props) {
                       <div className="col-12">
                           <div className="card-body">
                               <h5 className="card-title">{student.lastName} {student.firstName} {student.middleName}</h5>
-                              <p className="card-text">{("" + student.birthDate).split("T")[0]}</p>
+                              <p className="card-text">{formatDate(student.birthDate)}</p>
                               <p className="card-text"><small className="text-body-secondary">ИИН: {student.iin}</small></p>
                               <Link className="btn btn-primary" to={`${student.id}`}>Посмотреть</Link>
                           </div>
